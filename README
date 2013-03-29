@@ -1,0 +1,11 @@
+;;; re.el --- a friendly regexp library
+
+;;; Commentary
+
+;; I find Emacs' built-in regexp library tricky to use. Maybe you do
+;; too.
+
+;; re.el provides functions that just return a match string rather
+;; than using several different variables for all the different match
+;; details.
+
