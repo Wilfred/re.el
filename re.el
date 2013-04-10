@@ -12,6 +12,7 @@
 ;;; search functions
 (defun re-find (pattern string))
 (defun re-find-all (pattern string))
+(defun re-find-p (pattern string))
 
 ;;; match metadata
 (defun re-match-text (match))
