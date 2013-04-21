@@ -64,6 +64,7 @@ Return a list of the matching substrings."
 ;;; miscellaneous
 (defun re-strip-properties (string))
 (defun re-from-pcre (pattern))
+(defun re-quote (pattern))
 
 ;;; string to string functions
 (defun re-split (string pattern &optional ignore-case))
