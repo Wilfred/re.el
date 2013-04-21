@@ -36,7 +36,24 @@
 
 ;;; search functions
 (defun re-find (string pattern &optional ignore-case))
-(defun re-find-all (string pattern &optional ignore-case))
+
+(defun re-find-all (string pattern &optional ignore-case)
+  "Find all matches of REGEXP in STRING, return a list of the
+ matching substrings. Case sensitive."
+  (save-match-data
+    (re--find-all pattern string 0 ignore-case)))
+
+;; fixme: potential stack overflow
+(defun re--find-all (pattern string offset ignore-case)
+  "Recursively find all matches of regexp PATTERN in STRING starting at OFFSET.
+Return a list of the matching substrings."
+  (let* ((case-fold-search ignore-case)
+         (match-start-index (string-match pattern string offset)))
+    (when match-start-index
+      (cons
+       (substring string (match-beginning 0) (match-end 0))
+       (re--find-all pattern string (match-end 0) ignore-case)))))
+
 (defun re-find-p (string pattern &optional ignore-case))
 
 ;;; match metadata
