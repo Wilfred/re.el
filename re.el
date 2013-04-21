@@ -47,3 +47,6 @@
 ;;; string to string functions
 (defun re-split (string pattern &optional ignore-case))
 (defun re-replace (string pattern &optional ignore-case))
+
+(provide 're)
+;;; re.el ends here
