@@ -24,6 +24,10 @@
 ;; I find Emacs' built-in regexp library tricky to use. Maybe you do
 ;; too.
 
+;; re.el functions are pure: you simply call them. They don't modify
+;; any global variables (existing match data is unchanged) and don't
+;; require you to set any global variables to configure them.
+
 ;; re.el provides functions that just return a match string rather
 ;; than using several different variables for all the different match
 ;; details.
