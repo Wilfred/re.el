@@ -10,9 +10,9 @@
 ;; details.
 
 ;;; search functions
-(defun re-find (pattern string))
-(defun re-find-all (pattern string))
-(defun re-find-p (pattern string))
+(defun re-find (string pattern &optional ignore-case))
+(defun re-find-all (string pattern &optional ignore-case))
+(defun re-find-p (string pattern &optional ignore-case))
 
 ;;; match metadata
 (defun re-match-text (match))
@@ -24,5 +24,5 @@
 (defun re-from-pcre (pattern))
 
 ;;; string to string functions
-(defun re-split (pattern string))
-(defun re-replace (pattern string))
+(defun re-split (string pattern &optional ignore-case))
+(defun re-replace (string pattern &optional ignore-case))
