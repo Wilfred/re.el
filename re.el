@@ -22,3 +22,7 @@
 ;;; miscellaneous
 (defun re-strip-properties (string))
 (defun re-from-pcre (pattern))
+
+;;; string to string functions
+(defun re-split (pattern string))
+(defun re-replace (pattern string))
