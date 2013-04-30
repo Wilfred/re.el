@@ -20,6 +20,9 @@
   (should (equal "\\(ab\\)" (re-from-pcre "(ab)")))
   (should (equal "()" (re-from-pcre "\\(\\)"))))
 
+(ert-deftest re-test-from-pcre-alternation ()
+  (should (equal "a\\|b" (re-from-pcre "a|b"))))
+
 (defun re-run-tests ()
   "Run all the unit tests in re.el."
   (interactive)

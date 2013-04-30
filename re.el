@@ -3,8 +3,9 @@
 ;; Copyright (C) 2013 Wilfred Hughes
 
 ;; Author: Wilfred Hughes <me@wilfred.me.uk>
-;; Version: 0.2
+;; Version: 0.3
 ;; Keywords: regexp, regular expression
+;; Package-Requires: ((dash "1.2.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -76,31 +77,37 @@ newlines in Emacs.
 
 Note that if you use this in core emacs functions, you will need to set `case-fold-search'
 and `search-whitespace-regexp'."
-  (let ((emacs-regexp "")
+  (-> pattern
+    (re--invert-quoting ?\()
+    (re--invert-quoting ?\))
+    (re--invert-quoting ?|)))
+
+(defun re--invert-quoting (string char)
+  "Replace all quoted instances of CHAR with \\CHAR and vice versa in STRING."
+  (let ((inverted "")
         (index 0)
-        char
+        current-char
         next-char)
-    (loop until (equal index (length pattern)) do
-          (setq char (elt pattern index))
+        (loop until (equal index (length string)) do
+          (setq current-char (elt string index))
           (setq next-char
-                (unless (equal (1+ index) (length pattern))
-                  (elt pattern (1+ index))))
+                (unless (equal (1+ index) (length string))
+                  (elt string (1+ index))))
 
           (cond
-           ;; literal paren in PCRE, e.g. "\\("
-           ;; todo: check other escaped characters
-           ((and (equal char ?\\) (re--paren-p next-char))
-            (re--concat! emacs-regexp next-char)
+           ;; unescape if it's escaped
+           ((and (equal current-char ?\\) (equal next-char char))
+            (re--concat! inverted char)
             (incf index 2))
-           ;; open/close group in PCRE, e.g. "("
-           ((re--paren-p char)
-            (re--concat! emacs-regexp (list ?\\ char))
+           ;; escape if it's unescaped
+           ((equal current-char char)
+            (re--concat! inverted (list ?\\ char))
             (incf index))
+           ;; any other character
            (t
-            ;; any other character
-            (re--concat! emacs-regexp char)
+            (re--concat! inverted current-char)
             (incf index))))
-    emacs-regexp))
+        inverted))
 
 (defun re--paren-p (char)
   "Is CHAR an open or closing parenthesis?"
