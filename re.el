@@ -36,6 +36,8 @@
 ;;; Code:
 
 ;; todo: let-bind search-whitespace-regexp in all these functions
+;; todo: optional arguments should be keyword arguments for clarity
+;; todo: mention rx in blurb
 
 ;;; search functions
 (defun re-find (string pattern &optional ignore-case))
