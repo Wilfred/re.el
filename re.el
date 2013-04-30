@@ -34,6 +34,8 @@
 
 ;;; Code:
 
+;; todo: let-bind search-whitespace-regexp in all these functions
+
 ;;; search functions
 (defun re-find (string pattern &optional ignore-case))
 
