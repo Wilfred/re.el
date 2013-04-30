@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013 Wilfred Hughes
 
 ;; Author: Wilfred Hughes <me@wilfred.me.uk>
-;; Version: 0.1
+;; Version: 0.2
 ;; Keywords: regexp, regular expression
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -63,8 +63,53 @@ Return a list of the matching substrings."
 
 ;;; miscellaneous
 (defun re-strip-properties (string))
-(defun re-from-pcre (pattern))
-(defun re-quote (pattern))
+
+(defun re-from-pcre (pattern)
+  "Given a perl-compatible regular expression PATTERN, convert it to an Emacs regexp.
+
+Not all PCRE patterns can be converted to Emacs regexps, and
+`re-from-pcre' will throw an error in those situations.
+
+Note that if you use this in core emacs functions, you will need to set `case-fold-search'
+and `search-whitespace-regexp'."
+  (let ((emacs-regexp "")
+        (index 0)
+        char
+        next-char)
+    (loop until (equal index (length pattern)) do
+          (setq char (elt pattern index))
+          (setq next-char
+                (unless (equal (1+ index) (length pattern))
+                  (elt pattern (1+ index))))
+
+          (cond
+           ;; literal paren in PCRE, e.g. "\\("
+           ;; todo: check other escaped characters
+           ((and (equal char ?\\) (re--paren-p next-char))
+            (re--concat! emacs-regexp next-char)
+            (incf index 2))
+           ;; open/close group in PCRE, e.g. "("
+           ((re--paren-p char)
+            (re--concat! emacs-regexp (list ?\\ char))
+            (incf index))
+           (t
+            ;; any other character
+            (re--concat! emacs-regexp char)
+            (incf index))))
+    emacs-regexp))
+
+(defun re--paren-p (char)
+  "Is CHAR an open or closing parenthesis?"
+  (or (equal char ?\() (equal char ?\))))
+
+(defmacro re--concat! (string suffix)
+  "Set STRING to the concatenation of STRING and string or character SUFFIX."
+  `(setq ,string
+         (concat ,string
+                 (if (characterp ,suffix) (list ,suffix) ,suffix))))
+
+(defun re-quote (string))
+
 
 ;;; string to string functions
 (defun re-split (string pattern &optional ignore-case))
