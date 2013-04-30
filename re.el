@@ -70,7 +70,9 @@ Return a list of the matching substrings."
   "Given a perl-compatible regular expression PATTERN, convert it to an Emacs regexp.
 
 Not all PCRE patterns can be converted to Emacs regexps, and
-`re-from-pcre' will throw an error in those situations.
+`re-from-pcre' will throw an error in those situations. There is
+also no Emacs equivalent of PCRE's 'dotall', so . never matches
+newlines in Emacs.
 
 Note that if you use this in core emacs functions, you will need to set `case-fold-search'
 and `search-whitespace-regexp'."
