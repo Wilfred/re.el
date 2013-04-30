@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013 Wilfred Hughes
 
 ;; Author: Wilfred Hughes <me@wilfred.me.uk>
-;; Version: 0.3
+;; Version: 0.4
 ;; Keywords: regexp, regular expression
 ;; Package-Requires: ((dash "1.2.0"))
 
@@ -78,6 +78,7 @@ newlines in Emacs.
 Note that if you use this in core emacs functions, you will need to set `case-fold-search'
 and `search-whitespace-regexp'."
   (-> pattern
+    (re-replace "(#[^)]*)" "")
     (re--invert-quoting ?\()
     (re--invert-quoting ?\))
     (re--invert-quoting ?|)))
@@ -127,7 +128,12 @@ Useful for passing arguments to external commands.")
 
 ;;; string to string functions
 (defun re-split (string pattern &optional ignore-case))
-(defun re-replace (string pattern &optional ignore-case))
+
+;; todo: unit tests, document optional arguments
+(defun re-replace (string pattern replacement &optional ignore-case literal-replacement)
+  "Replace in STRING matches of PATTERN with REPLACEMENT."
+  (let ((case-fold-search ignore-case))
+    (replace-regexp-in-string pattern replacement string t t)))
 
 (provide 're)
 ;;; re.el ends here

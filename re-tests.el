@@ -23,6 +23,9 @@
 (ert-deftest re-test-from-pcre-alternation ()
   (should (equal "a\\|b" (re-from-pcre "a|b"))))
 
+(ert-deftest re-test-from-pcre-comments ()
+  (should (equal "" (re-from-pcre "(# I am a comment!)"))))
+
 (defun re-run-tests ()
   "Run all the unit tests in re.el."
   (interactive)
