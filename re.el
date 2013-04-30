@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013 Wilfred Hughes
 
 ;; Author: Wilfred Hughes <me@wilfred.me.uk>
-;; Version: 0.4
+;; Version: 0.5
 ;; Keywords: regexp, regular expression
 ;; Package-Requires: ((dash "1.2.0"))
 
@@ -81,7 +81,9 @@ and `search-whitespace-regexp'."
     (re-replace "(#[^)]*)" "")
     (re--invert-quoting ?\()
     (re--invert-quoting ?\))
-    (re--invert-quoting ?|)))
+    (re--invert-quoting ?|)
+    (re--invert-quoting ?\{)
+    (re--invert-quoting ?\})))
 
 (defun re--invert-quoting (string char)
   "Replace all quoted instances of CHAR with \\CHAR and vice versa in STRING."

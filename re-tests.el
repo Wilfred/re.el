@@ -23,6 +23,9 @@
 (ert-deftest re-test-from-pcre-alternation ()
   (should (equal "a\\|b" (re-from-pcre "a|b"))))
 
+(ert-deftest re-test-from-pcre-repeats ()
+  (should (equal "x\\{1,2\\}" (re-from-pcre "x{1,2}"))))
+
 (ert-deftest re-test-from-pcre-comments ()
   (should (equal "" (re-from-pcre "(# I am a comment!)"))))
 
