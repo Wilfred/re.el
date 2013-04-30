@@ -39,7 +39,7 @@
 
 (defun re-find-all (string pattern &optional ignore-case)
   "Find all matches of REGEXP in STRING, return a list of the
- matching substrings. Case sensitive."
+matching substrings. Case sensitive unless IGNORE-CASE is non-nil."
   (save-match-data
     (re--find-all pattern string 0 ignore-case)))
 
