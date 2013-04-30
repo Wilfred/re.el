@@ -110,6 +110,9 @@ and `search-whitespace-regexp'."
 
 (defun re-quote (string))
 
+(defun re-pcre-quote (string)
+  "Return a PCRE regexp that matches exactly STRING and nothing else.
+Useful for passing arguments to external commands.")
 
 ;;; string to string functions
 (defun re-split (string pattern &optional ignore-case))
